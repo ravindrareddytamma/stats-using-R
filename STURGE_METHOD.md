@@ -12,7 +12,7 @@ Width of each interval is defined using: w = (High + Low)/k \# High = Maximum Va
 ``` r
 # STRUGE Formula to make equal intervals for Data.
 
-sturge <- function(vect)
+sturge <- function(vect,bins = 0)
 {
   if(class(vect) == "character")
     return(transform(table(vect)))
@@ -21,7 +21,11 @@ sturge <- function(vect)
   low <- round(min(vect,na.rm = TRUE))
   high <- round(max(vect,na.rm = TRUE))
   k <- round(log2(n))
-  width <- round((high - low)/k)
+  if(bins != 0){
+    width <- round((high - low)/(bins-1))
+  }else{
+    width <- round((high - low)/k)
+  }
   if(width > 0)
   {
     bins <- seq(low,high+width,width)
